@@ -3,6 +3,7 @@ import sys
 
 from core.verify import verify_claim_from_text
 
+
 def main():
     parser = argparse.ArgumentParser(
         prog="review-verify",

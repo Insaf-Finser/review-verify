@@ -1,6 +1,8 @@
 import subprocess
 from dataclasses import dataclass
+
 from core.parse import parse_agent_claim
+
 
 @dataclass
 class VerificationResult:
@@ -15,7 +17,7 @@ class VerificationResult:
 def run_real_check(command: str) -> tuple[int, str]:
     """Actually run the check command and capture real exit code + output."""
     result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
+        command, shell=True, capture_output=True, text=True, check=False
     )
     output = result.stdout + result.stderr
     return result.returncode, output
