@@ -1,0 +1,19 @@
+name: 'Review Verify'
+description: 'Verify that an AI agent claimed check results match reality'
+inputs:
+  check:
+    description: 'Command to run, e.g. pytest'
+    required: true
+  claim:
+    description: 'Agent claim text to verify against reality'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Install review-verify
+      shell: bash
+      run: pip install -e .
+      working-directory: ${{ github.action_path }}/../..
+    - name: Run verification
+      shell: bash
+      run: review-verify run --check "${{ inputs.check }}" --claim "${{ inputs.claim }}"
