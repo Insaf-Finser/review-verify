@@ -16,3 +16,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["core*", "cli*", "action*", "reports*"]
+
+[project.scripts]
+review-verify = "cli.main:main"
