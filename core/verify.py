@@ -1,6 +1,6 @@
 import subprocess
 from dataclasses import dataclass
-
+from core.parse import parse_agent_claim
 
 @dataclass
 class VerificationResult:
@@ -45,3 +45,17 @@ def verify_claim(command: str, agent_claimed_passed: bool) -> VerificationResult
         reason="Claim matches real result." if really_passed == agent_claimed_passed
                else "Agent claimed failure, but the check actually passed.",
     )
+
+def verify_claim_from_text(command: str, agent_text: str) -> VerificationResult:
+    claimed = parse_agent_claim(agent_text)
+    if claimed is None:
+        real_exit_code, real_output = run_real_check(command)
+        return VerificationResult(
+            command=command,
+            real_exit_code=real_exit_code,
+            real_output=real_output,
+            claimed_passed=False,
+            verified=False,
+            reason="Could not determine a clear pass/fail claim from agent text — flagging for manual review.",
+        )
+    return verify_claim(command, claimed)
