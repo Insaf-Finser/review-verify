@@ -1,0 +1,18 @@
+[project]
+name = "review-verify"
+version = "0.1.0"
+description = "Verify your AI agent actually ran the checks it says it ran, before you merge."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "black"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["core*", "cli*", "action*", "reports*"]
