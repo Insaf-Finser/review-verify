@@ -3,6 +3,9 @@ import sys
 
 from core.verify import verify_claim_from_text
 
+if sys.stdout.encoding != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 
 def main():
     parser = argparse.ArgumentParser(

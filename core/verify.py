@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from core.parse import parse_agent_claim
 
+NO_TESTS_COLLECTED_EXIT_CODE = 5
 
 @dataclass
 class VerificationResult:
@@ -26,7 +27,19 @@ def run_real_check(command: str) -> tuple[int, str]:
 def verify_claim(command: str, agent_claimed_passed: bool) -> VerificationResult:
     """Compare what really happened against what the agent claimed happened."""
     real_exit_code, real_output = run_real_check(command)
+
+    if real_exit_code == NO_TESTS_COLLECTED_EXIT_CODE:
+        return VerificationResult(
+            command=command,
+            real_exit_code=real_exit_code,
+            real_output=real_output,
+            claimed_passed=agent_claimed_passed,
+            verified=False,
+            reason="No tests were found to run — the claim can't be verified either way. Check your test path or config.",
+        )
+
     really_passed = real_exit_code == 0
+    
 
     if agent_claimed_passed and not really_passed:
         return VerificationResult(
